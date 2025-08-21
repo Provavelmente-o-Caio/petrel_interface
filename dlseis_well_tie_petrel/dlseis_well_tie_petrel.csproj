@@ -199,6 +199,24 @@
   <ItemGroup>
     <Compile Include="Automatic_Seismic_to_Well_Tie.cs" />
     <Compile Include="Export_Well_Data.cs" />
+    <Compile Include="handler_logs_window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="handler_logs_window.Designer.cs">
+      <DependentUpon>handler_logs_window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="handler_path_window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="handler_path_window.Designer.cs">
+      <DependentUpon>handler_path_window.cs</DependentUpon>
+    </Compile>
+    <Compile Include="handler_table_window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="handler_table_window.Designer.cs">
+      <DependentUpon>handler_table_window.cs</DependentUpon>
+    </Compile>
     <Compile Include="Module.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -237,6 +255,9 @@
     <Content Include="OceanResources\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="handler_path_window.resx">
+      <DependentUpon>handler_path_window.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
