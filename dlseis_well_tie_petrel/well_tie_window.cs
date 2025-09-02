@@ -11,6 +11,7 @@ using Slb.Ocean.Petrel.Base;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace dlseis_well_tie_petrel
 {
@@ -58,23 +59,6 @@ namespace dlseis_well_tie_petrel
                 return;
             }
 
-            /*
-            Execução antiga :(
-            String RunURI = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            String ScriptName = "interface_well_tie.bat";
-            String StringProcess = String.Concat(RunURI, "\\", ScriptName);
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = StringProcess,
-                Arguments = $"\"{path_logs}\" \"{path_seismic}\" \"{path_well_path}\" \"{path_table}\"",
-                UseShellExecute = true,
-                CreateNoWindow = false
-            };
-
-            var process = Process.Start(startInfo);
-            process.WaitForExit();
-            */
-
             // isso eu preciso fazer com o blue button
             var columnsLogs = Utils.GetColumnsFromFile(path_logs, 0);
 
@@ -98,19 +82,47 @@ namespace dlseis_well_tie_petrel
             PetrelLogger.InfoOutputWindow(string.Format("{0} clicked,", @"Creating new window just for testing"));
             var instanceWindowLog = new handler_logs_window();
             var instanceWindowPath = new handler_path_window(columnsWellPath);
-            var instanceWindowTable = new handler_table_window();
+            var instanceWindowTable = new handler_table_window(columnsTable);
 
-            if (instanceWindowPath.ShowDialog() == DialogResult.OK)
+            this.Hide();
+
+            if (instanceWindowLog.ShowDialog() == DialogResult.OK && instanceWindowPath.ShowDialog() == DialogResult.OK && instanceWindowTable.ShowDialog() == DialogResult.OK)
             {
-                // saiu botininho, mas vamos indo
-                // Agora vamos indo com o uso disso dentro do python
-                var selectedPath = instanceWindowPath.SelectedColumns;
-                // Imprime colunas da Tabela
-                PetrelLogger.InfoOutputWindow("=== Columns from Table ===");
-                foreach (var col in selectedPath)
+                var selectedLogs = instanceWindowLog.getSelectedLogs();
+                var selectedPath = instanceWindowPath.getSelectedColumns();
+                var selectedTable = instanceWindowTable.getSelectedColumns();
+
+                var exportData = new
                 {
-                    PetrelLogger.InfoOutputWindow(col);
-                }
+                    Logs = selectedLogs,
+                    Path = selectedPath,
+                    Table = selectedTable
+                };
+
+
+                String RunURI = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                String ScriptName = "interface_well_tie.bat";
+                String StringProcess = String.Concat(RunURI, "\\", ScriptName);
+
+                String exportJson = JsonConvert.SerializeObject(exportData, Formatting.Indented);
+                String path_Json = Path.Combine(RunURI, "selected_data.json");
+                File.WriteAllText(path_Json, exportJson);
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = StringProcess,
+                    Arguments = $"\"{path_logs}\" \"{path_seismic}\" \"{path_well_path}\" \"{path_table}\" \"{path_Json}\"",
+                    UseShellExecute = true,
+                    CreateNoWindow = false
+                };
+
+                var process = Process.Start(startInfo);
+                process.WaitForExit();
+            }
+            else
+            {
+                // error handling que com certeza vou fazer agora :)
+                // TODO: Error handling
             }
         }
 

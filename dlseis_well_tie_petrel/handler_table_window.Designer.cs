@@ -28,11 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.flowLayoutPanelTable = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonAcceptHanlderTable = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // flowLayoutPanelTable
+            // 
+            this.flowLayoutPanelTable.Location = new System.Drawing.Point(13, 13);
+            this.flowLayoutPanelTable.Name = "flowLayoutPanelTable";
+            this.flowLayoutPanelTable.Size = new System.Drawing.Size(200, 200);
+            this.flowLayoutPanelTable.TabIndex = 0;
+            // 
+            // buttonAcceptHanlderTable
+            // 
+            this.buttonAcceptHanlderTable.Location = new System.Drawing.Point(13, 219);
+            this.buttonAcceptHanlderTable.Name = "buttonAcceptHanlderTable";
+            this.buttonAcceptHanlderTable.Size = new System.Drawing.Size(75, 23);
+            this.buttonAcceptHanlderTable.TabIndex = 1;
+            this.buttonAcceptHanlderTable.Text = "Ok";
+            this.buttonAcceptHanlderTable.UseVisualStyleBackColor = true;
+            this.buttonAcceptHanlderTable.Click += new System.EventHandler(this.buttonAcceptHanlderTable_Click);
+            // 
+            // handler_table_window
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "handler_table_window";
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.buttonAcceptHanlderTable);
+            this.Controls.Add(this.flowLayoutPanelTable);
+            this.Name = "handler_table_window";
+            this.Text = "Time Depth Table Handler";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelTable;
+        private System.Windows.Forms.Button buttonAcceptHanlderTable;
     }
 }

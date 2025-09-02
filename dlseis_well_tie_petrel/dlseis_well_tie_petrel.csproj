@@ -51,6 +51,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.5.4.0\lib\net46\NLog.dll</HintPath>
       <Private>True</Private>
@@ -255,8 +259,14 @@
     <Content Include="OceanResources\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="handler_logs_window.resx">
+      <DependentUpon>handler_logs_window.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="handler_path_window.resx">
       <DependentUpon>handler_path_window.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="handler_table_window.resx">
+      <DependentUpon>handler_table_window.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
