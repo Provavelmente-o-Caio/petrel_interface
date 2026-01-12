@@ -8,9 +8,9 @@
     <PluginUri>http://www.pluginuri.info/</PluginUri>
     <PluginId>://dlseis_well_tie_petrel.Plugin/1.0.0.0</PluginId>
     <Trust PublicKeyToken="">Default</Trust>
-    <ReleaseDate>2025-09-01</ReleaseDate>
+    <ReleaseDate>2025-10-20</ReleaseDate>
     <Author>Caio Ferreira Cardoso</Author>
-    <AppVersion>2017.1</AppVersion>
+    <AppVersion>2023.1</AppVersion>
     <Modules>
       <Module TypeName="dlseis_well_tie_petrel.Module, dlseis_well_tie_petrel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     </Modules>

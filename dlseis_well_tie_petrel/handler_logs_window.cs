@@ -17,7 +17,7 @@ namespace dlseis_well_tie_petrel
     public partial class handler_logs_window : Form
     {
         private Dictionary<string, string> SelectedLogs = new Dictionary<string, string>();
-        public handler_logs_window()
+        public handler_logs_window(string wellname)
         {
             InitializeComponent();
 
@@ -26,17 +26,16 @@ namespace dlseis_well_tie_petrel
             var wellroot = WellRoot.Get(project);
             var wellColection = wellroot.BoreholeCollection;
 
-            var wellname = "Boreas 1"; // Isso tá horrível
             var well = wellColection.BoreholeCollections.ElementAt(0).Where(w => w.Name == wellname).Select(w => w).ElementAt(0);
 
             // var lognames = well.Logs.WellLogs.ToList();
-            var lognames = well.Logs.WellLogs.Select(w => w.Name).ToList();
+            var lognames = well.Logs.WellLogs.Select(w => w.Name).ToArray();
 
-            comboBoxVP.Items.AddRange(lognames.ToArray());
-            comboBoxVS.Items.AddRange(lognames.ToArray());
-            comboBoxRho.Items.AddRange(lognames.ToArray());
-            comboBoxGR.Items.AddRange(lognames.ToArray());
-            comboBoxCali.Items.AddRange(lognames.ToArray());
+            comboBoxVP.Items.AddRange(lognames);
+            comboBoxVS.Items.AddRange(lognames);
+            comboBoxRho.Items.AddRange(lognames);
+            comboBoxGR.Items.AddRange(lognames);
+            comboBoxCali.Items.AddRange(lognames);
         }
 
         private void buttonHandlerLogs_Click(object sender, EventArgs e)
@@ -51,14 +50,20 @@ namespace dlseis_well_tie_petrel
             var selectedGR = comboBoxGR.Text;
             var selectedCali = comboBoxCali.Text;
 
-            if (selectedVP != "" && selectedVS != "" && selectedRho != "" && selectedGR != "" && selectedCali != "")
+            if (selectedVP != "" && selectedVS != "" && selectedRho != "")
             {
                 // selecionar as janelas
                 SelectedLogs.Add("VP", selectedVP);
                 SelectedLogs.Add("VS", selectedVS);
                 SelectedLogs.Add("Rho", selectedRho);
-                SelectedLogs.Add("GR", selectedGR);
-                SelectedLogs.Add("Cali", selectedCali);
+                if (selectedGR != "")
+                {
+                    SelectedLogs.Add("GR", selectedGR);
+                }
+                if (selectedCali != "")
+                {
+                    SelectedLogs.Add("Cali", selectedCali);
+                }
                 this.DialogResult = DialogResult.OK;
             }
             else

@@ -7,6 +7,7 @@ using Slb.Ocean.Petrel;
 using Slb.Ocean.Petrel.DomainObject.Well;
 using System.Globalization;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace dlseis_well_tie_petrel
 {
@@ -17,8 +18,6 @@ namespace dlseis_well_tie_petrel
             List<string> wellNames = new List<string>();
 
             // Get the root of all wells
-            
-            
             return wellNames;
         }
 
@@ -45,6 +44,15 @@ namespace dlseis_well_tie_petrel
                 .ToArray();
 
             return columns;
+        }
+
+        public static string WriteJson<T>(T exportData, string runURI, string write_path)
+        {
+            String exportJson = JsonConvert.SerializeObject(exportData, Formatting.Indented);
+            String path_Json = Path.Combine(runURI, write_path);
+            File.WriteAllText(path_Json, exportJson);
+
+            return path_Json;
         }
     }
 }

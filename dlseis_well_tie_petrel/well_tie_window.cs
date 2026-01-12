@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 
+
 namespace dlseis_well_tie_petrel
 {
     public partial class well_tie_window : Form
@@ -20,6 +21,14 @@ namespace dlseis_well_tie_petrel
         public well_tie_window()
         {
             InitializeComponent();
+
+            // Selecting the well root
+            Project project = PetrelProject.PrimaryProject;
+            var wellroot = WellRoot.Get(project);
+            var wellCollection = wellroot.BoreholeCollection;
+            var wellnames = wellCollection.BoreholeCollections.ElementAt(0).Select(w => w.Name).ToArray();
+
+            comboBoxPetrelLogs.Items.AddRange(wellnames);
         }
 
         private void button_tie_Click(object sender, EventArgs e)
@@ -28,11 +37,7 @@ namespace dlseis_well_tie_petrel
             var path_seismic = openFileDialog_seismic.FileName;
             var path_well_path = openFileDialog_well_path.FileName;
             var path_table = openFileDialog_table.FileName;
-
-            PetrelLogger.InfoOutputWindow(path_logs);
-            PetrelLogger.InfoOutputWindow(path_seismic);
-            PetrelLogger.InfoOutputWindow(path_well_path);
-            PetrelLogger.InfoOutputWindow(path_table);
+            var selectedPetrelLog = comboBoxPetrelLogs.Text;
 
             // Checking if all file paths are valid
             if (!File.Exists(path_logs))
@@ -59,59 +64,53 @@ namespace dlseis_well_tie_petrel
                 return;
             }
 
+            if (selectedPetrelLog == "")
+            {
+                MessageBox.Show("You have to select a well log", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             // isso eu preciso fazer com o blue button
+            // infelizmente a extensão presente no computador está na versão errada e logo não funciona
             var columnsLogs = Utils.GetColumnsFromFile(path_logs, 0);
 
-            //eeses eu acho que está tudo bem por enquanto :)
+            // esses eu acho que está tudo bem por enquanto :)
             var columnsWellPath = Utils.GetColumnsFromFile(path_well_path, 1);
             var columnsTable = Utils.GetColumnsFromFile(path_table, 1);
 
-            PetrelLogger.InfoOutputWindow("=== Columns from Logs ===");
-            foreach (var col in columnsLogs)
-            {
-                PetrelLogger.InfoOutputWindow(col);
-            }
-
-            // Imprime colunas do WellPath
-            PetrelLogger.InfoOutputWindow("=== Columns from WellPath ===");
-            foreach (var col in columnsWellPath)
-            {
-                PetrelLogger.InfoOutputWindow(col);
-            }
-
-            PetrelLogger.InfoOutputWindow(string.Format("{0} clicked,", @"Creating new window just for testing"));
-            var instanceWindowLog = new handler_logs_window();
+            var instanceWindowLog = new handler_logs_window(selectedPetrelLog);
             var instanceWindowPath = new handler_path_window(columnsWellPath);
             var instanceWindowTable = new handler_table_window(columnsTable);
 
             this.Hide();
 
-            if (instanceWindowLog.ShowDialog() == DialogResult.OK && instanceWindowPath.ShowDialog() == DialogResult.OK && instanceWindowTable.ShowDialog() == DialogResult.OK)
+            if (instanceWindowLog.ShowDialog() == DialogResult.OK
+                && instanceWindowPath.ShowDialog() == DialogResult.OK
+                && instanceWindowTable.ShowDialog() == DialogResult.OK)
             {
-                var selectedLogs = instanceWindowLog.getSelectedLogs();
-                var selectedPath = instanceWindowPath.getSelectedColumns();
-                var selectedTable = instanceWindowTable.getSelectedColumns();
-
                 var exportData = new
                 {
-                    Logs = selectedLogs,
-                    Path = selectedPath,
-                    Table = selectedTable
+                    Logs = instanceWindowLog.getSelectedLogs(),
+                    Path = instanceWindowPath.getSelectedColumns(),
+                    Table = instanceWindowTable.getSelectedColumns()
                 };
 
+                var exportConfig = new
+                {
+                    isTWT = instanceWindowTable.getOWT()
+                };
 
                 String RunURI = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 String ScriptName = "interface_well_tie.bat";
                 String StringProcess = String.Concat(RunURI, "\\", ScriptName);
 
-                String exportJson = JsonConvert.SerializeObject(exportData, Formatting.Indented);
-                String path_Json = Path.Combine(RunURI, "selected_data.json");
-                File.WriteAllText(path_Json, exportJson);
+                string path_Json = Utils.WriteJson(exportData, RunURI, "selected_data.json");
+                string path_config = Utils.WriteJson(exportConfig, RunURI, "config.json");
 
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = StringProcess,
-                    Arguments = $"\"{path_logs}\" \"{path_seismic}\" \"{path_well_path}\" \"{path_table}\" \"{path_Json}\"",
+                    Arguments = $"\"{path_logs}\" \"{path_seismic}\" \"{path_well_path}\" \"{path_table}\" \"{path_Json}\" \"{path_config}\"",
                     UseShellExecute = true,
                     CreateNoWindow = false
                 };
@@ -121,7 +120,7 @@ namespace dlseis_well_tie_petrel
             }
             else
             {
-                // error handling que com certeza vou fazer agora :)
+                return;
                 // TODO: Error handling
             }
         }

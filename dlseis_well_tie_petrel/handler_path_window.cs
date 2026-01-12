@@ -42,7 +42,7 @@ namespace dlseis_well_tie_petrel
             }
 
             SelectedColumns.Clear();
-            // sei que sempre esses dois serão os dois primeiros itens da lista :)
+            // Assuring that these will be the first ones in the list
             SelectedColumns.Add(comboBoxMD.SelectedItem.ToString());
             SelectedColumns.Add(comboBoxInclination.SelectedItem.ToString());
 
@@ -62,7 +62,7 @@ namespace dlseis_well_tie_petrel
             else
             {
                 MessageBox.Show(
-                    "You must at least select an depth and inclination headers"
+                    "You must at least select a depth and inclination headers"
                 );
             }
 

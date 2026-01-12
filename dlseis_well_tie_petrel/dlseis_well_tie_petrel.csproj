@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>dlseis_well_tie_petrel</RootNamespace>
     <AssemblyName>dlseis_well_tie_petrel</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -59,96 +59,46 @@
       <HintPath>..\packages\NLog.5.4.0\lib\net46\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Slb.Ocean.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b" />
-    <Reference Include="Slb.Ocean.Petrel.Configuration, Version=17.2.0.0, Culture=neutral, PublicKeyToken=d42cec326f61051f, processorArchitecture=MSIL" />
-    <Reference Include="Slb.Ocean.Petrel.Data.Persistence, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Data.Persistence.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.DomainObject.FrameworkModeling, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.DomainObject.FrameworkModeling.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.DomainObjectExtensions, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.DomainObjectExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.DomainObjectExtensions.Prestack, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.DomainObjectExtensions.Prestack.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Drilling, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Drilling.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Geology, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Geology.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Intersect, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Intersect.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Microseismic, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Microseismic.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Modeling, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Modeling.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Polygon, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Polygon.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Production, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Production.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.ReservoirEngineering, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.ReservoirEngineering.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Resources, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Resources.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Seismic, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Seismic.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Simulation.EclipseKeywords, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Simulation.EclipseKeywords.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Testing, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Testing.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.UI.Controls, Version=17.2.0.0, Culture=neutral, PublicKeyToken=da9605198f529641, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.UI.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.UI.Visualization3D, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.UI.Visualization3D.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.UI.WellSection, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.UI.WellSection.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.UI.Wpf.Controls, Version=17.2.0.0, Culture=neutral, PublicKeyToken=da9605198f529641, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.UI.Wpf.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Well, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Well.dll</HintPath>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel.Well.Treatment, Version=17.4.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\petrel2017\Public\Slb.Ocean.Petrel.Well.Treatment.dll</HintPath>
-    </Reference>
+    <Reference Include="Slb.Ocean.Basics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Catalogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Coordinates, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Core.ReferenceImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Geometry, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Configuration, Version=21.3.0.0, Culture=neutral, PublicKeyToken=d42cec326f61051f, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Data.Persistence, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.DomainObject.FrameworkModeling, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.DomainObjectExtensions, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.DomainObjectExtensions.Prestack, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Drilling, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Geology, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Intersect, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Microseismic, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Modeling, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Polygon, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=AMD64" />
+    <Reference Include="Slb.Ocean.Petrel.Production, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.ReservoirEngineering, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Resources, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Seismic, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Simulation.EclipseKeywords, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.StructuralGeology, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Testing, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.UI.Controls, Version=21.3.0.0, Culture=neutral, PublicKeyToken=da9605198f529641, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.UI.Visualization3D, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.UI.WellSection, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.UI.Wpf.Controls, Version=21.3.0.0, Culture=neutral, PublicKeyToken=da9605198f529641, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Well, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Petrel.Well.Treatment, Version=21.3.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Studio.Find, Version=21.1.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Studio.Find.Index, Version=21.1.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Studio.Find.Petrel, Version=21.1.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Studio.Knowledge.Petrel, Version=21.1.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Trajectory, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Units.ReferenceCatalog, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
+    <Reference Include="Slb.Ocean.Units.ReferenceImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=14ef4a483ef6a64b, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
@@ -179,30 +129,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Deployment" />
-    <Reference Include="Slb.Ocean.Core">
-      <Name>Slb.Ocean.Core</Name>
-      <HintPath>D:\petrel2017\Public\slb.ocean.core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Slb.Ocean.Petrel">
-      <Name>Slb.Ocean.Petrel</Name>
-      <HintPath>D:\petrel2017\Public\slb.ocean.petrel.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Slb.Ocean.Basics">
-      <Name>Slb.Ocean.Basics</Name>
-      <HintPath>D:\petrel2017\Public\Slb.Ocean.Basics.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Slb.Ocean.Geometry">
-      <Name>Slb.Ocean.Geometry</Name>
-      <HintPath>D:\petrel2017\Public\Slb.Ocean.Geometry.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatic_Seismic_to_Well_Tie.cs" />
-    <Compile Include="Export_Well_Data.cs" />
     <Compile Include="handler_logs_window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -283,8 +212,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>del "$(ProjectDir)\plugin.xml"
-"%25Ocean2017Home%25\PluginPackager.exe" /g "$(TargetPath)" "$(ProjectDir)\plugin.xml" "%25OCEAN2017HOME_x64%25\petrel.exe"
-"%25Ocean2017Home%25\PluginPackager.exe" /m "$(ProjectDir)\plugin.xml" "%25OCEAN2017HOME_x64%25\petrel.exe" "$(TargetDir)"
+"%25Ocean2023Home%25\PluginPackager.exe" /g "$(TargetPath)" "$(ProjectDir)\plugin.xml" "%25Ocean2023Home%25\petrel.exe"
+"%25Ocean2023Home%25\PluginPackager.exe" /m "$(ProjectDir)\plugin.xml" "%25Ocean2023Home%25\petrel.exe" "$(TargetDir)"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

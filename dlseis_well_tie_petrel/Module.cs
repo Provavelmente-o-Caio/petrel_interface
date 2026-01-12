@@ -39,8 +39,6 @@ namespace dlseis_well_tie_petrel
         {
             // Register Automatic_Seismic_to_Well_Tie
             PetrelSystem.CommandManager.CreateCommand(dlseis_well_tie_petrel.Automatic_Seismic_to_Well_Tie.ID, new dlseis_well_tie_petrel.Automatic_Seismic_to_Well_Tie());
-            // Register Export_Well_Data
-            PetrelSystem.CommandManager.CreateCommand(dlseis_well_tie_petrel.Export_Well_Data.ID, new dlseis_well_tie_petrel.Export_Well_Data());
 
             // TODO:  Add Module.Integrate implementation
         }

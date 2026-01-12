@@ -22,13 +22,25 @@ namespace dlseis_well_tie_petrel
             {
                 var cb = new CheckBox { Text = col, AutoSize = true };
                 flowLayoutPanelTable.Controls.Add(cb);
+                comboBoxTWT.Items.Add(col);
+                comboBoxTVDSS.Items.Add(col);
             }
         }
 
         private void buttonAcceptHanlderTable_Click(object sender, EventArgs e)
         {
+            if (comboBoxTWT.SelectedItem == null || comboBoxTVDSS.SelectedItem == null)
+            {
+                MessageBox.Show("You must select both a two-way time columns and a true vertical depth column.",
+                    "Missing Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
             SelectedColumns.Clear();
-            this.DialogResult = DialogResult.None;
+            SelectedColumns.Add(comboBoxTWT.SelectedIndex.ToString());
+            SelectedColumns.Add(comboBoxTVDSS.SelectedIndex.ToString());
 
             foreach (var cb in flowLayoutPanelTable.Controls.OfType<CheckBox>())
             {
@@ -38,17 +50,25 @@ namespace dlseis_well_tie_petrel
                 }
             }
 
-            if (SelectedColumns.Count() > 0)
+            if (SelectedColumns.Count() >= 2)
             {
                 this.DialogResult = DialogResult.OK;
+                this.Close();
+            } else
+            {
+                MessageBox.Show("You must at least select a TWT and TVDSS headers");
             }
 
-            this.Close();
         }
 
         public List<string> getSelectedColumns()
         {
             return SelectedColumns;
+        }
+
+        public bool getOWT()
+        {
+            return checkBoxOWT.Checked;
         }
     }
 }
