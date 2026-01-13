@@ -5,156 +5,324 @@ using System.Windows.Forms;
 using Slb.Ocean.Petrel;
 using Slb.Ocean.Petrel.DomainObject;
 using Slb.Ocean.Petrel.DomainObject.Well;
-using Slb.Ocean.Petrel.Data;
-using Slb.Ocean.Petrel.Well;
-using Slb.Ocean.Petrel.Base;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Globalization;
-using Newtonsoft.Json;
 
 
 namespace dlseis_well_tie_petrel
 {
+    // Dataclass salvando os caminhos para os dados para o welltie
+    public class WellTieInputs
+    {
+        public string LogsPath { get; set; }
+        public string SeismicPath { get; set; }
+        public string WellPathPath { get; set; }
+        public string TablePath { get; set; }
+        public string SelectedPetrelLog { get; set; }
+    }
+
+    // Dataclass salvando os dados que serão usados no welltie
+    public class WellTieSelection
+    {
+        public Dictionary<string, string> Logs { get; set; }
+        public List<string> PathColumns { get; set; }
+        public List<string> TableColumns { get; set; }
+        public bool IsTWT { get; set; }
+    }
+
     public partial class well_tie_window : Form
     {
+        private const string ScriptName = "interface_well_tie.bat";
+
+        private const string JsonSelectedData = "selected_data.json";
+        private const string JsonConfig = "config.json";
+
+        private const string DialogFileErrorTitle = "File Error";
+
+
         public well_tie_window()
         {
             InitializeComponent();
-
-            // Selecting the well root
-            Project project = PetrelProject.PrimaryProject;
-            var wellroot = WellRoot.Get(project);
-            var wellCollection = wellroot.BoreholeCollection;
-            var wellnames = wellCollection.BoreholeCollections.ElementAt(0).Select(w => w.Name).ToArray();
-
-            comboBoxPetrelLogs.Items.AddRange(wellnames);
         }
 
-        private void button_tie_Click(object sender, EventArgs e)
+
+        private void WellTieWindow_Load(object sender, EventArgs e)
         {
-            var path_logs = openFileDialog_logs.FileName;
-            var path_seismic = openFileDialog_seismic.FileName;
-            var path_well_path = openFileDialog_well_path.FileName;
-            var path_table = openFileDialog_table.FileName;
-            var selectedPetrelLog = comboBoxPetrelLogs.Text;
+            try
+            {
+                LoadWellsIntoComboBox();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Petrel Error");
+                Close();
+            }
+        }
+
+
+        private bool TryCollectInputs(out WellTieInputs inputs)
+        {
+            inputs = new WellTieInputs
+            {
+                LogsPath = openFileDialog_logs.FileName,
+                SeismicPath = openFileDialog_seismic.FileName,
+                WellPathPath = openFileDialog_well_path.FileName,
+                TablePath = openFileDialog_table.FileName,
+                SelectedPetrelLog = comboBoxPetrelLogs.Text
+            };
 
             // Checking if all file paths are valid
-            if (!File.Exists(path_logs))
+            if (!ValidateFile(inputs.LogsPath, "The file for the well logs doesn't exist")) return false;
+            if (!ValidateFile(inputs.SeismicPath, "The file for the well seismic doesn't exist")) return false;
+            if (!ValidateFile(inputs.WellPathPath, "The file for the well path doesn't exist")) return false;
+            if (!ValidateFile(inputs.TablePath, "The file for the well data-time table doesn't exist")) return false;
+
+            if (string.IsNullOrWhiteSpace(inputs.SelectedPetrelLog))
             {
-                MessageBox.Show("The file for the well logs doesn't exist", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("You have to select a well log", DialogFileErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
 
-            if (!File.Exists(path_seismic))
+            return true;
+        }
+
+
+        private bool RunWellTieWizard(
+            WellTieInputs inputs,
+            out WellTieSelection selection)
+        {
+            selection = null;
+
+            var columnsWellPath = Utils.GetColumnsFromFile(inputs.WellPathPath, 1);
+            var columnsTable = Utils.GetColumnsFromFile(inputs.TablePath, 1);
+
+            if (columnsWellPath == null || columnsWellPath.Length == 0)
             {
-                MessageBox.Show("The file for the well seismic doesn't exist", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("No valid columns found in well path file.", DialogFileErrorTitle);
+                return false;
             }
 
-            if (!File.Exists(path_well_path))
+            if (columnsTable == null || columnsTable.Length == 0)
             {
-                MessageBox.Show("The file for the well path doesn't exist", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("No valid columns found in table file.", DialogFileErrorTitle);
+                return false;
             }
 
-            if (!File.Exists(path_table))
+            using (var logsWindow = new handler_logs_window(inputs.SelectedPetrelLog))
+            using (var pathWindow = new handler_path_window(columnsWellPath))
+            using (var tableWindow = new handler_table_window(columnsTable))
             {
-                MessageBox.Show("The file for the well data-time table doesn't exist", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                Hide();
 
-            if (selectedPetrelLog == "")
-            {
-                MessageBox.Show("You have to select a well log", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // isso eu preciso fazer com o blue button
-            // infelizmente a extensão presente no computador está na versão errada e logo não funciona
-            var columnsLogs = Utils.GetColumnsFromFile(path_logs, 0);
-
-            // esses eu acho que está tudo bem por enquanto :)
-            var columnsWellPath = Utils.GetColumnsFromFile(path_well_path, 1);
-            var columnsTable = Utils.GetColumnsFromFile(path_table, 1);
-
-            var instanceWindowLog = new handler_logs_window(selectedPetrelLog);
-            var instanceWindowPath = new handler_path_window(columnsWellPath);
-            var instanceWindowTable = new handler_table_window(columnsTable);
-
-            this.Hide();
-
-            if (instanceWindowLog.ShowDialog() == DialogResult.OK
-                && instanceWindowPath.ShowDialog() == DialogResult.OK
-                && instanceWindowTable.ShowDialog() == DialogResult.OK)
-            {
-                var exportData = new
+                try
                 {
-                    Logs = instanceWindowLog.getSelectedLogs(),
-                    Path = instanceWindowPath.getSelectedColumns(),
-                    Table = instanceWindowTable.getSelectedColumns()
-                };
+                    if (logsWindow.ShowDialog() != DialogResult.OK)
+                        return false;
 
-                var exportConfig = new
+                    if (pathWindow.ShowDialog() != DialogResult.OK)
+                        return false;
+
+                    if (tableWindow.ShowDialog() != DialogResult.OK)
+                        return false;
+
+                    selection = new WellTieSelection
+                    {
+                        Logs = logsWindow.getSelectedLogs(),
+                        PathColumns = pathWindow.getSelectedColumns(),
+                        TableColumns = tableWindow.getSelectedColumns(),
+                        IsTWT = tableWindow.getOWT()
+                    };
+
+                    return true;
+                }
+                finally
                 {
-                    isTWT = instanceWindowTable.getOWT()
-                };
+                    Show();
+                }
+            }
+        }
 
-                String RunURI = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                String ScriptName = "interface_well_tie.bat";
-                String StringProcess = String.Concat(RunURI, "\\", ScriptName);
+        private void ExecuteWellTie(
+            WellTieInputs inputs,
+            WellTieSelection selection)
+        {
+            string runDir = Path.GetDirectoryName(
+                System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-                string path_Json = Utils.WriteJson(exportData, RunURI, "selected_data.json");
-                string path_config = Utils.WriteJson(exportConfig, RunURI, "config.json");
+            string scriptPath = Path.Combine(runDir, ScriptName);
 
+            var exportData = new
+            {
+                Logs = selection.Logs,
+                Path = selection.PathColumns,
+                Table = selection.TableColumns
+            };
+
+            var exportConfig = new
+            {
+                isTWT = selection.IsTWT
+            };
+
+            string pathJson = Utils.WriteJson(exportData, runDir, JsonSelectedData);
+            string pathConfig = Utils.WriteJson(exportConfig, runDir, JsonConfig);
+
+            ExecuteScript(
+                scriptPath,
+                inputs.LogsPath,
+                inputs.SeismicPath,
+                inputs.WellPathPath,
+                inputs.TablePath,
+                pathJson,
+                pathConfig);
+        }
+
+        private void ExecuteScript(
+            string scriptPath,
+            string pathLogs,
+            string pathSeismic,
+            string pathWellPath,
+            string pathTable,
+            string pathJson,
+            string pathConfig)
+        {
+            if (!File.Exists(scriptPath))
+            {
+                MessageBox.Show(
+                    "Well tie script not found:\n" + scriptPath,
+                    "Execution Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
                 var startInfo = new ProcessStartInfo
                 {
-                    FileName = StringProcess,
-                    Arguments = $"\"{path_logs}\" \"{path_seismic}\" \"{path_well_path}\" \"{path_table}\" \"{path_Json}\" \"{path_config}\"",
+                    FileName = scriptPath,
+                    Arguments =
+                        $"\"{pathLogs}\" \"{pathSeismic}\" \"{pathWellPath}\" " +
+                        $"\"{pathTable}\" \"{pathJson}\" \"{pathConfig}\"",
                     UseShellExecute = true,
                     CreateNoWindow = false
                 };
 
-                var process = Process.Start(startInfo);
-                process.WaitForExit();
+                using (Process process = Process.Start(startInfo))
+                {
+                    if (process == null)
+                        throw new InvalidOperationException("Failed to start the script process.");
+
+                    process.WaitForExit();
+
+                    if (process.ExitCode != 0)
+                    {
+                        MessageBox.Show(
+                            "The well tie script finished with errors.",
+                            "Execution Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return;
-                // TODO: Error handling
+                MessageBox.Show(
+                    ex.Message,
+                    "Execution Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
+
+
+        private void LoadWellsIntoComboBox()
+        {
+            comboBoxPetrelLogs.Items.Clear();
+
+            Project project = PetrelProject.PrimaryProject
+                ?? throw new InvalidOperationException("No active Petrel project.");
+
+            WellRoot wellRoot = WellRoot.Get(project)
+                ?? throw new InvalidOperationException("WellRoot not found.");
+
+            var boreholeCollections = wellRoot.BoreholeCollection?.BoreholeCollections
+                ?? throw new InvalidOperationException("No borehole collections found.");
+
+            if (!boreholeCollections.Any())
+                throw new InvalidOperationException("No boreholes available in the project.");
+
+            var wellNames = boreholeCollections
+                .SelectMany(c => c)
+                .Select(w => w.Name)
+                .Distinct()
+                .OrderBy(n => n)
+                .ToArray();
+
+            comboBoxPetrelLogs.Items.AddRange(wellNames);
+        }
+
+
+        private bool ValidateFile(string path, string message)
+        {
+            if (File.Exists(path))
+            {
+                return true;
+            }
+
+            MessageBox.Show(message, DialogFileErrorTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            return false;
+        }
+
+
+        private void button_tie_Click(object sender, EventArgs e)
+        {
+            WellTieInputs inputs;
+            WellTieSelection selection;
+
+            // Coletar e validar inputs
+            if (!TryCollectInputs(out inputs))
+                return;
+
+            // Executar wizard (logs / path / table)
+            if (!RunWellTieWizard(inputs, out selection))
+                return;
+
+            // Executar o well tie
+            ExecuteWellTie(inputs, selection);
+        }
+
+
+        private void SelectFile(OpenFileDialog dialog, TextBox target)
+        {
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                target.Text = dialog.FileName;
+            }
+        }
+
 
         private void button_select_logs_Click(object sender, EventArgs e)
         {
-            if (openFileDialog_logs.ShowDialog() == DialogResult.OK)
-            {
-                textBox_logs.Text = openFileDialog_logs.FileName;
-            }
+            SelectFile(openFileDialog_logs, textBox_logs);
         }
+
 
         private void button_select_seismic_Click(object sender, EventArgs e)
         {
-            if (openFileDialog_seismic.ShowDialog() == DialogResult.OK)
-            {
-                textBox_seismic.Text = openFileDialog_seismic.FileName;
-            }
+            SelectFile(openFileDialog_seismic, textBox_seismic);
         }
+
 
         private void button_select_well_path_Click(object sender, EventArgs e)
         {
-            if (openFileDialog_well_path.ShowDialog() == DialogResult.OK)
-            {
-                textBox_well_path.Text = openFileDialog_well_path.FileName;
-            }
+            SelectFile(openFileDialog_well_path, textBox_well_path);
         }
+
 
         private void button_select_table_Click(object sender, EventArgs e)
         {
-            if (openFileDialog_table.ShowDialog() == DialogResult.OK)
-            {
-                textBox_table.Text = openFileDialog_table.FileName;
-            }
+            SelectFile(openFileDialog_table, textBox_table);
         }
     }
 }

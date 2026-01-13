@@ -198,16 +198,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 171);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(289, 13);
+            this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 17;
-            this.label1.Text = "Select the well in Petrel you wish to perform the well tie with:";
+            this.label1.Text = "Petrel Well";
             // 
             // comboBoxPetrelLogs
             // 
             this.comboBoxPetrelLogs.FormattingEnabled = true;
-            this.comboBoxPetrelLogs.Location = new System.Drawing.Point(310, 165);
+            this.comboBoxPetrelLogs.Location = new System.Drawing.Point(143, 165);
             this.comboBoxPetrelLogs.Name = "comboBoxPetrelLogs";
-            this.comboBoxPetrelLogs.Size = new System.Drawing.Size(112, 21);
+            this.comboBoxPetrelLogs.Size = new System.Drawing.Size(216, 21);
             this.comboBoxPetrelLogs.TabIndex = 18;
             // 
             // well_tie_window
@@ -234,6 +234,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "well_tie_window";
             this.Text = "Seismic to Well Tie";
+            this.Load += new System.EventHandler(this.WellTieWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
