@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Slb.Ocean.Petrel;
-using Slb.Ocean.Petrel.DomainObject.Well;
-using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -35,12 +30,25 @@ namespace dlseis_well_tie_petrel
                 throw new Exception("Not enouth lines in the file.");
             }
 
+            var columnOccurrences = new Dictionary<string, int>();
             var columns = lines[lineToRead]
-                .Split((char[])null, StringSplitOptions.RemoveEmptyEntries)
-                .Select(col => System.Text.RegularExpressions.Regex.Replace(col, @"\([^)]*\)", "")) // Remove content inside (...)
+                .Split(new[] { '\t' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(col => System.Text.RegularExpressions.Regex.Replace(col, @"\([^)]*\)", ""))
                 .Select(col => col.Trim())
                 .Where(col => col != "#" && col != "")
-                .Distinct()
+                .Select(col =>
+                {
+                    if (!columnOccurrences.ContainsKey(col))
+                    {
+                        columnOccurrences[col] = 1;
+                        return col;
+                    }
+                    else
+                    {
+                        columnOccurrences[col]++;
+                        return $"{col}{columnOccurrences[col]}";
+                    }
+                })
                 .ToArray();
 
             return columns;

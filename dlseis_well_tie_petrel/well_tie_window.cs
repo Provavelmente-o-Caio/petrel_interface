@@ -11,25 +11,6 @@ using System.Collections.Generic;
 
 namespace dlseis_well_tie_petrel
 {
-    // Dataclass salvando os caminhos para os dados para o welltie
-    public class WellTieInputs
-    {
-        public string LogsPath { get; set; }
-        public string SeismicPath { get; set; }
-        public string WellPathPath { get; set; }
-        public string TablePath { get; set; }
-        public string SelectedPetrelLog { get; set; }
-    }
-
-    // Dataclass salvando os dados que serão usados no welltie
-    public class WellTieSelection
-    {
-        public Dictionary<string, string> Logs { get; set; }
-        public List<string> PathColumns { get; set; }
-        public List<string> TableColumns { get; set; }
-        public bool IsTWT { get; set; }
-    }
-
     public partial class well_tie_window : Form
     {
         private const string ScriptName = "interface_well_tie.bat";
@@ -89,9 +70,11 @@ namespace dlseis_well_tie_petrel
 
         private bool RunWellTieWizard(
             WellTieInputs inputs,
-            out WellTieSelection selection)
+            out WellTieSelection selection,
+            out WellTieData data)
         {
             selection = null;
+            data = null;
 
             var columnsWellPath = Utils.GetColumnsFromFile(inputs.WellPathPath, 1);
             var columnsTable = Utils.GetColumnsFromFile(inputs.TablePath, 1);
@@ -130,7 +113,14 @@ namespace dlseis_well_tie_petrel
                         Logs = logsWindow.getSelectedLogs(),
                         PathColumns = pathWindow.getSelectedColumns(),
                         TableColumns = tableWindow.getSelectedColumns(),
-                        IsTWT = tableWindow.getOWT()
+                        IsOWT = tableWindow.getOWT()
+                    };
+
+                    data = new WellTieData
+                    {
+                        Logs = logsWindow.getLogs(),
+                        Path = columnsWellPath.ToList(),
+                        Table = columnsTable.ToList()
                     };
 
                     return true;
@@ -144,7 +134,8 @@ namespace dlseis_well_tie_petrel
 
         private void ExecuteWellTie(
             WellTieInputs inputs,
-            WellTieSelection selection)
+            WellTieSelection selection,
+            WellTieData data)
         {
             string runDir = Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -155,12 +146,15 @@ namespace dlseis_well_tie_petrel
             {
                 Logs = selection.Logs,
                 Path = selection.PathColumns,
-                Table = selection.TableColumns
+                Table = selection.TableColumns,
+                Entire_Logs = data.Logs,
+                Entire_Path = data.Path,
+                Entire_Table = data.Table
             };
 
             var exportConfig = new
             {
-                isTWT = selection.IsTWT
+                isOWT = selection.IsOWT
             };
 
             string pathJson = Utils.WriteJson(exportData, runDir, JsonSelectedData);
@@ -251,6 +245,7 @@ namespace dlseis_well_tie_petrel
             if (!boreholeCollections.Any())
                 throw new InvalidOperationException("No boreholes available in the project.");
 
+            var nameOccurrences = new Dictionary<string, int>();
             var wellNames = boreholeCollections
                 .SelectMany(c => c)
                 .Select(w => w.Name)
@@ -279,17 +274,18 @@ namespace dlseis_well_tie_petrel
         {
             WellTieInputs inputs;
             WellTieSelection selection;
+            WellTieData data;
 
             // Coletar e validar inputs
             if (!TryCollectInputs(out inputs))
                 return;
 
             // Executar wizard (logs / path / table)
-            if (!RunWellTieWizard(inputs, out selection))
+            if (!RunWellTieWizard(inputs, out selection, out data))
                 return;
 
             // Executar o well tie
-            ExecuteWellTie(inputs, selection);
+            ExecuteWellTie(inputs, selection, data);
         }
 
 
@@ -324,5 +320,32 @@ namespace dlseis_well_tie_petrel
         {
             SelectFile(openFileDialog_table, textBox_table);
         }
+    }
+
+    // Dataclass salvando os caminhos para os dados para o welltie
+    public class WellTieInputs
+    {
+        public string LogsPath { get; set; }
+        public string SeismicPath { get; set; }
+        public string WellPathPath { get; set; }
+        public string TablePath { get; set; }
+        public string SelectedPetrelLog { get; set; }
+    }
+
+    // Dataclass salvando os dados que serão usados no welltie
+    public class WellTieSelection
+    {
+        public Dictionary<string, string> Logs { get; set; }
+        public List<string> PathColumns { get; set; }
+        public List<string> TableColumns { get; set; }
+        public bool IsOWT { get; set; }
+    }
+
+    // Dataclass para todos os dados originais do well tie
+    public class WellTieData
+    {
+        public List<string> Logs { get; set; }
+        public List<string> Path { get; set; }
+        public List<string> Table { get; set; }
     }
 }

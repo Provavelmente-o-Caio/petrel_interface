@@ -39,8 +39,8 @@ namespace dlseis_well_tie_petrel
             }
 
             SelectedColumns.Clear();
-            SelectedColumns.Add(comboBoxTWT.SelectedIndex.ToString());
-            SelectedColumns.Add(comboBoxTVDSS.SelectedIndex.ToString());
+            SelectedColumns.Add(comboBoxTWT.SelectedItem.ToString());
+            SelectedColumns.Add(comboBoxTVDSS.SelectedItem.ToString());
 
             foreach (var cb in flowLayoutPanelTable.Controls.OfType<CheckBox>())
             {

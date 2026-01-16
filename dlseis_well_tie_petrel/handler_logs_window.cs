@@ -11,6 +11,9 @@ namespace dlseis_well_tie_petrel
     public partial class handler_logs_window : Form
     {
         private Dictionary<string, string> SelectedLogs = new Dictionary<string, string>();
+
+        private List<string> logs = new List<string>();
+
         public handler_logs_window(string wellname)
         {
             InitializeComponent();
@@ -24,6 +27,9 @@ namespace dlseis_well_tie_petrel
 
             // var lognames = well.Logs.WellLogs.ToList();
             var lognames = well.Logs.WellLogs.Select(w => w.Name).ToArray();
+            // Gambierra de novo :D --> Feito para rapidamente conseguir acessar os lognames de fora como uma lista
+            logs.Clear();
+            logs = lognames.ToList();
 
             comboBoxVP.Items.AddRange(lognames);
             comboBoxVS.Items.AddRange(lognames);
@@ -72,6 +78,11 @@ namespace dlseis_well_tie_petrel
         public Dictionary<string, string> getSelectedLogs()
         {
             return SelectedLogs;
+        }
+
+        public List<string> getLogs()
+        {
+            return logs;
         }
     }
 }
