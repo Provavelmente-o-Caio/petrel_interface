@@ -75,11 +75,11 @@
             // labelTWT
             // 
             this.labelTWT.AutoSize = true;
-            this.labelTWT.Location = new System.Drawing.Point(15, 32);
+            this.labelTWT.Location = new System.Drawing.Point(12, 35);
             this.labelTWT.Name = "labelTWT";
-            this.labelTWT.Size = new System.Drawing.Size(79, 13);
+            this.labelTWT.Size = new System.Drawing.Size(80, 13);
             this.labelTWT.TabIndex = 4;
-            this.labelTWT.Text = "Two-Way Time";
+            this.labelTWT.Text = "Downward time";
             // 
             // comboBoxTVDSS
             // 
@@ -93,11 +93,11 @@
             // labelTVDSS
             // 
             this.labelTVDSS.AutoSize = true;
-            this.labelTVDSS.Location = new System.Drawing.Point(129, 32);
+            this.labelTVDSS.Location = new System.Drawing.Point(198, 35);
             this.labelTVDSS.Name = "labelTVDSS";
-            this.labelTVDSS.Size = new System.Drawing.Size(143, 13);
+            this.labelTVDSS.Size = new System.Drawing.Size(74, 13);
             this.labelTVDSS.TabIndex = 6;
-            this.labelTVDSS.Text = "True Vertical Depth Sub-Sea";
+            this.labelTVDSS.Text = "Vertical Depth";
             // 
             // checkBoxOWT
             // 
