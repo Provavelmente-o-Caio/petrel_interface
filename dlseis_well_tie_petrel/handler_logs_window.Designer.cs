@@ -41,6 +41,10 @@
             this.comboBoxRho = new System.Windows.Forms.ComboBox();
             this.comboBoxGR = new System.Windows.Forms.ComboBox();
             this.comboBoxCali = new System.Windows.Forms.ComboBox();
+            this.label_range_start = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.unitTextBox_range_start = new Slb.Ocean.Petrel.UI.Controls.UnitTextBox();
+            this.unitTextBox_range_end = new Slb.Ocean.Petrel.UI.Controls.UnitTextBox();
             this.SuspendLayout();
             // 
             // labelTitle
@@ -108,7 +112,7 @@
             // 
             // buttonHandlerLogs
             // 
-            this.buttonHandlerLogs.Location = new System.Drawing.Point(6, 186);
+            this.buttonHandlerLogs.Location = new System.Drawing.Point(137, 255);
             this.buttonHandlerLogs.Name = "buttonHandlerLogs";
             this.buttonHandlerLogs.Size = new System.Drawing.Size(75, 23);
             this.buttonHandlerLogs.TabIndex = 7;
@@ -156,11 +160,48 @@
             this.comboBoxCali.Size = new System.Drawing.Size(121, 21);
             this.comboBoxCali.TabIndex = 12;
             // 
+            // label_range_start
+            // 
+            this.label_range_start.AutoSize = true;
+            this.label_range_start.Location = new System.Drawing.Point(3, 192);
+            this.label_range_start.Name = "label_range_start";
+            this.label_range_start.Size = new System.Drawing.Size(64, 13);
+            this.label_range_start.TabIndex = 13;
+            this.label_range_start.Text = "Range Start";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 221);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Range End";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // unitTextBox_range_start
+            // 
+            this.unitTextBox_range_start.Location = new System.Drawing.Point(120, 185);
+            this.unitTextBox_range_start.Name = "unitTextBox_range_start";
+            this.unitTextBox_range_start.Size = new System.Drawing.Size(121, 20);
+            this.unitTextBox_range_start.TabIndex = 15;
+            // 
+            // unitTextBox_range_end
+            // 
+            this.unitTextBox_range_end.Location = new System.Drawing.Point(120, 211);
+            this.unitTextBox_range_end.Name = "unitTextBox_range_end";
+            this.unitTextBox_range_end.Size = new System.Drawing.Size(121, 20);
+            this.unitTextBox_range_end.TabIndex = 16;
+            // 
             // handler_logs_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 220);
+            this.ClientSize = new System.Drawing.Size(347, 299);
+            this.Controls.Add(this.unitTextBox_range_end);
+            this.Controls.Add(this.unitTextBox_range_start);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label_range_start);
             this.Controls.Add(this.comboBoxCali);
             this.Controls.Add(this.comboBoxGR);
             this.Controls.Add(this.comboBoxRho);
@@ -196,5 +237,9 @@
         private System.Windows.Forms.ComboBox comboBoxRho;
         private System.Windows.Forms.ComboBox comboBoxGR;
         private System.Windows.Forms.ComboBox comboBoxCali;
+        private System.Windows.Forms.Label label_range_start;
+        private System.Windows.Forms.Label label1;
+        private Slb.Ocean.Petrel.UI.Controls.UnitTextBox unitTextBox_range_start;
+        private Slb.Ocean.Petrel.UI.Controls.UnitTextBox unitTextBox_range_end;
     }
 }

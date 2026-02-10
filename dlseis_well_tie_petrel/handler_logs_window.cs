@@ -11,8 +11,8 @@ namespace dlseis_well_tie_petrel
     public partial class handler_logs_window : Form
     {
         private Dictionary<string, string> SelectedLogs = new Dictionary<string, string>();
-
         private List<string> logs = new List<string>();
+        private int log_range;
 
         public handler_logs_window(string wellname)
         {
@@ -25,9 +25,9 @@ namespace dlseis_well_tie_petrel
 
             var well = wellColection.BoreholeCollections.ElementAt(0).Where(w => w.Name == wellname).Select(w => w).ElementAt(0);
 
-            // var lognames = well.Logs.WellLogs.ToList();
             var lognames = well.Logs.WellLogs.Select(w => w.Name).ToArray();
-            // Gambierra de novo :D --> Feito para rapidamente conseguir acessar os lognames de fora como uma lista
+            log_range = well.Logs.WellLogs.Select(w => w.SampleCount).ElementAt(0);
+
             logs.Clear();
             logs = lognames.ToList();
 
@@ -36,43 +36,90 @@ namespace dlseis_well_tie_petrel
             comboBoxRho.Items.AddRange(lognames);
             comboBoxGR.Items.AddRange(lognames);
             comboBoxCali.Items.AddRange(lognames);
+
+            unitTextBox_range_start.Value = log_range;
+            unitTextBox_range_end.Value = 0;
+        }
+
+        private bool ValidateRange(int startRange, int endRange, int maxRange)
+        {
+            if (startRange < endRange)
+            {
+                MessageBox.Show(
+                    "Start range must be greater than or equal to end range.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (startRange < 0 || endRange < 0)
+            {
+                MessageBox.Show(
+                    "Range values must be non-negative.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (startRange > maxRange || endRange > maxRange)
+            {
+                MessageBox.Show(
+                    $"Range values must not exceed {maxRange}.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
         }
 
         private void buttonHandlerLogs_Click(object sender, EventArgs e)
         {
-            // Saving the selected columns
             SelectedLogs.Clear();
             this.DialogResult = DialogResult.None;
 
-            var selectedVP = comboBoxVP.Text;
-            var selectedVS = comboBoxVS.Text;
-            var selectedRho = comboBoxRho.Text;
-            var selectedGR = comboBoxGR.Text;
-            var selectedCali = comboBoxCali.Text;
+            string selectedVP = comboBoxVP.Text;
+            string selectedVS = comboBoxVS.Text;
+            string selectedRho = comboBoxRho.Text;
+            string selectedGR = comboBoxGR.Text;
+            string selectedCali = comboBoxCali.Text;
+            int selectedStartRange = ((int)unitTextBox_range_start.Value);
+            int selectedEndRange = ((int)unitTextBox_range_end.Value);
 
-            if (selectedVP != "" && selectedVS != "" && selectedRho != "")
+            if (!string.IsNullOrEmpty(selectedVP)  && !string.IsNullOrEmpty(selectedVS) && !string.IsNullOrEmpty(selectedRho) && selectedStartRange >= 0 && selectedEndRange >= 0)
             {
-                // selecionar as janelas
-                SelectedLogs.Add("VP", selectedVP);
-                SelectedLogs.Add("VS", selectedVS);
-                SelectedLogs.Add("Rho", selectedRho);
-                if (selectedGR != "")
+                if (ValidateRange(selectedStartRange, selectedEndRange, log_range))
                 {
-                    SelectedLogs.Add("GR", selectedGR);
-                }
-                if (selectedCali != "")
+                    // selecionar as janelas
+                    SelectedLogs.Add("VP", selectedVP);
+                    SelectedLogs.Add("VS", selectedVS);
+                    SelectedLogs.Add("Rho", selectedRho);
+
+                    if (!string.IsNullOrEmpty(selectedGR))
+                    {
+                        SelectedLogs.Add("GR", selectedGR);
+                    }
+                    if (!string.IsNullOrEmpty(selectedCali))
+                    {
+                        SelectedLogs.Add("Cali", selectedCali);
+                    }
+                    SelectedLogs.Add("Start_range", selectedStartRange.ToString());
+                    SelectedLogs.Add("End_range", selectedEndRange.ToString());
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                } else
                 {
-                    SelectedLogs.Add("Cali", selectedCali);
-                }
-                this.DialogResult = DialogResult.OK;
+                    MessageBox.Show("Os indices selecionados para a borda dos logs é inválido");
+                };
             }
             else
             {
-                // levantar erro pedindo para o usuário selecionar todas as janelas
                 MessageBox.Show("Selecione todos os campos antes de avançar para o próximo ponto");
+                return;
             }
-
-            this.Close();
         }
 
         public Dictionary<string, string> getSelectedLogs()
