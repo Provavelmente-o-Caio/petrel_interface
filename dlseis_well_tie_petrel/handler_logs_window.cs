@@ -13,10 +13,15 @@ namespace dlseis_well_tie_petrel
         private Dictionary<string, string> SelectedLogs = new Dictionary<string, string>();
         private List<string> logs = new List<string>();
         private int log_range;
+        private int startRange;
+        private int endRange;
+        private string lasUnit;
 
         public handler_logs_window(string wellname)
         {
             InitializeComponent();
+
+            List<string> units = new List<string> { "m/s", "us/ft", "us/m", "s/m", "ft/s", "km/s" };
 
             // Selecting the well root
             Project project = PetrelProject.PrimaryProject;
@@ -36,6 +41,7 @@ namespace dlseis_well_tie_petrel
             comboBoxRho.Items.AddRange(lognames);
             comboBoxGR.Items.AddRange(lognames);
             comboBoxCali.Items.AddRange(lognames);
+            comboBoxUnit.DataSource = units;
 
             unitTextBox_range_start.Value = log_range;
             unitTextBox_range_end.Value = 0;
@@ -86,12 +92,13 @@ namespace dlseis_well_tie_petrel
             string selectedRho = comboBoxRho.Text;
             string selectedGR = comboBoxGR.Text;
             string selectedCali = comboBoxCali.Text;
-            int selectedStartRange = ((int)unitTextBox_range_start.Value);
-            int selectedEndRange = ((int)unitTextBox_range_end.Value);
+            startRange = ((int)unitTextBox_range_start.Value);
+            endRange = ((int)unitTextBox_range_end.Value);
+            lasUnit = comboBoxUnit.Text;
 
-            if (!string.IsNullOrEmpty(selectedVP)  && !string.IsNullOrEmpty(selectedVS) && !string.IsNullOrEmpty(selectedRho) && selectedStartRange >= 0 && selectedEndRange >= 0)
+            if (!string.IsNullOrEmpty(selectedVP)  && !string.IsNullOrEmpty(selectedVS) && !string.IsNullOrEmpty(selectedRho) && startRange >= 0 && endRange >= 0)
             {
-                if (ValidateRange(selectedStartRange, selectedEndRange, log_range))
+                if (ValidateRange(startRange, endRange, log_range))
                 {
                     // selecionar as janelas
                     SelectedLogs.Add("VP", selectedVP);
@@ -106,8 +113,6 @@ namespace dlseis_well_tie_petrel
                     {
                         SelectedLogs.Add("Cali", selectedCali);
                     }
-                    SelectedLogs.Add("Start_range", selectedStartRange.ToString());
-                    SelectedLogs.Add("End_range", selectedEndRange.ToString());
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 } else
@@ -130,6 +135,21 @@ namespace dlseis_well_tie_petrel
         public List<string> getLogs()
         {
             return logs;
+        }
+
+        public string getStartRange()
+        {
+            return startRange.ToString();
+        }
+
+        public string getEndRange()
+        {
+            return endRange.ToString();
+        }
+
+        public string getLasUnit()
+        {
+            return lasUnit;
         }
     }
 }

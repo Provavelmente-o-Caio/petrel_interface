@@ -45,6 +45,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.unitTextBox_range_start = new Slb.Ocean.Petrel.UI.Controls.UnitTextBox();
             this.unitTextBox_range_end = new Slb.Ocean.Petrel.UI.Controls.UnitTextBox();
+            this.labelUnit = new System.Windows.Forms.Label();
+            this.comboBoxUnit = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // labelTitle
@@ -112,7 +114,7 @@
             // 
             // buttonHandlerLogs
             // 
-            this.buttonHandlerLogs.Location = new System.Drawing.Point(137, 255);
+            this.buttonHandlerLogs.Location = new System.Drawing.Point(204, 246);
             this.buttonHandlerLogs.Name = "buttonHandlerLogs";
             this.buttonHandlerLogs.Size = new System.Drawing.Size(75, 23);
             this.buttonHandlerLogs.TabIndex = 7;
@@ -193,11 +195,30 @@
             this.unitTextBox_range_end.Size = new System.Drawing.Size(121, 20);
             this.unitTextBox_range_end.TabIndex = 16;
             // 
+            // labelUnit
+            // 
+            this.labelUnit.AutoSize = true;
+            this.labelUnit.Location = new System.Drawing.Point(271, 39);
+            this.labelUnit.Name = "labelUnit";
+            this.labelUnit.Size = new System.Drawing.Size(26, 13);
+            this.labelUnit.TabIndex = 18;
+            this.labelUnit.Text = "Unit";
+            // 
+            // comboBoxUnit
+            // 
+            this.comboBoxUnit.FormattingEnabled = true;
+            this.comboBoxUnit.Location = new System.Drawing.Point(303, 36);
+            this.comboBoxUnit.Name = "comboBoxUnit";
+            this.comboBoxUnit.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxUnit.TabIndex = 19;
+            // 
             // handler_logs_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 299);
+            this.ClientSize = new System.Drawing.Size(440, 299);
+            this.Controls.Add(this.comboBoxUnit);
+            this.Controls.Add(this.labelUnit);
             this.Controls.Add(this.unitTextBox_range_end);
             this.Controls.Add(this.unitTextBox_range_start);
             this.Controls.Add(this.label1);
@@ -241,5 +262,7 @@
         private System.Windows.Forms.Label label1;
         private Slb.Ocean.Petrel.UI.Controls.UnitTextBox unitTextBox_range_start;
         private Slb.Ocean.Petrel.UI.Controls.UnitTextBox unitTextBox_range_end;
+        private System.Windows.Forms.Label labelUnit;
+        private System.Windows.Forms.ComboBox comboBoxUnit;
     }
 }

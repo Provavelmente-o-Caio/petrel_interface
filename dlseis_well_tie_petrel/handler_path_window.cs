@@ -8,6 +8,7 @@ namespace dlseis_well_tie_petrel
     public partial class handler_path_window : Form
     {
         private List<string> SelectedColumns = new List<string>();
+        private string datum;
 
         public handler_path_window(string[] columns)
         {
@@ -40,6 +41,7 @@ namespace dlseis_well_tie_petrel
             // Assuring that these will be the first ones in the list
             SelectedColumns.Add(comboBoxMD.SelectedItem.ToString());
             SelectedColumns.Add(comboBoxInclination.SelectedItem.ToString());
+            datum = textBoxDatum.Text;
 
             foreach (var cb in flowLayoutPanelPath.Controls.OfType<CheckBox>())
             {
@@ -49,10 +51,15 @@ namespace dlseis_well_tie_petrel
                 }
             }
 
-            if (SelectedColumns.Count() >= 2)
+            if (SelectedColumns.Count() >= 2 && !string.IsNullOrEmpty(datum))
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
+            } else if (string.IsNullOrEmpty(datum))
+            {
+                MessageBox.Show(
+                        "You must select a value for Datum"
+                    );
             }
             else
             {
@@ -66,6 +73,11 @@ namespace dlseis_well_tie_petrel
         public List<string> getSelectedColumns()
         {
             return SelectedColumns;
+        }
+
+        public string getDatum()
+        {
+            return datum;
         }
     }
 }

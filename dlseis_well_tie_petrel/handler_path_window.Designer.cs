@@ -36,12 +36,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxMD = new System.Windows.Forms.ComboBox();
             this.comboBoxInclination = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxDatum = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(72, 9);
+            this.label1.Location = new System.Drawing.Point(56, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(153, 13);
             this.label1.TabIndex = 0;
@@ -50,14 +52,14 @@
             // flowLayoutPanelPath
             // 
             this.flowLayoutPanelPath.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelPath.Location = new System.Drawing.Point(12, 119);
+            this.flowLayoutPanelPath.Location = new System.Drawing.Point(12, 163);
             this.flowLayoutPanelPath.Name = "flowLayoutPanelPath";
             this.flowLayoutPanelPath.Size = new System.Drawing.Size(260, 191);
             this.flowLayoutPanelPath.TabIndex = 1;
             // 
             // buttonAcceptHandlerPath
             // 
-            this.buttonAcceptHandlerPath.Location = new System.Drawing.Point(12, 328);
+            this.buttonAcceptHandlerPath.Location = new System.Drawing.Point(12, 372);
             this.buttonAcceptHandlerPath.Name = "buttonAcceptHandlerPath";
             this.buttonAcceptHandlerPath.Size = new System.Drawing.Size(75, 23);
             this.buttonAcceptHandlerPath.TabIndex = 2;
@@ -68,7 +70,7 @@
             // label_extra_logs
             // 
             this.label_extra_logs.AutoSize = true;
-            this.label_extra_logs.Location = new System.Drawing.Point(12, 100);
+            this.label_extra_logs.Location = new System.Drawing.Point(12, 144);
             this.label_extra_logs.Name = "label_extra_logs";
             this.label_extra_logs.Size = new System.Drawing.Size(57, 13);
             this.label_extra_logs.TabIndex = 3;
@@ -95,7 +97,7 @@
             // comboBoxMD
             // 
             this.comboBoxMD.FormattingEnabled = true;
-            this.comboBoxMD.Location = new System.Drawing.Point(12, 61);
+            this.comboBoxMD.Location = new System.Drawing.Point(15, 51);
             this.comboBoxMD.Name = "comboBoxMD";
             this.comboBoxMD.Size = new System.Drawing.Size(83, 21);
             this.comboBoxMD.TabIndex = 6;
@@ -103,16 +105,35 @@
             // comboBoxInclination
             // 
             this.comboBoxInclination.FormattingEnabled = true;
-            this.comboBoxInclination.Location = new System.Drawing.Point(189, 61);
+            this.comboBoxInclination.Location = new System.Drawing.Point(189, 51);
             this.comboBoxInclination.Name = "comboBoxInclination";
             this.comboBoxInclination.Size = new System.Drawing.Size(83, 21);
             this.comboBoxInclination.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 90);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Datum";
+            // 
+            // textBoxDatum
+            // 
+            this.textBoxDatum.Location = new System.Drawing.Point(15, 107);
+            this.textBoxDatum.Name = "textBoxDatum";
+            this.textBoxDatum.Size = new System.Drawing.Size(100, 20);
+            this.textBoxDatum.TabIndex = 9;
+            this.textBoxDatum.Text = "0";
             // 
             // handler_path_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 363);
+            this.ClientSize = new System.Drawing.Size(284, 420);
+            this.Controls.Add(this.textBoxDatum);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBoxInclination);
             this.Controls.Add(this.comboBoxMD);
             this.Controls.Add(this.label2);
@@ -138,5 +159,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxMD;
         private System.Windows.Forms.ComboBox comboBoxInclination;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxDatum;
     }
 }

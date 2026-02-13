@@ -113,7 +113,11 @@ namespace dlseis_well_tie_petrel
                         Logs = logsWindow.getSelectedLogs(),
                         PathColumns = pathWindow.getSelectedColumns(),
                         TableColumns = tableWindow.getSelectedColumns(),
-                        IsOWT = tableWindow.getOWT()
+                        IsOWT = tableWindow.getOWT(),
+                        LasUnit = logsWindow.getLasUnit(),
+                        StartRange = logsWindow.getStartRange(),
+                        EndRange = logsWindow.getEndRange(),
+                        Datum = pathWindow.getDatum()
                     };
 
                     data = new WellTieData
@@ -154,7 +158,20 @@ namespace dlseis_well_tie_petrel
 
             var exportConfig = new
             {
-                isOWT = selection.IsOWT
+                Logs = new
+                {
+                    las_unit = selection.LasUnit ?? "us/ft",
+                    Start_range = selection.StartRange ?? "0",
+                    End_range = selection.EndRange ?? "0"
+                },
+                Path = new
+                {
+                   datum = selection.Datum ?? "0"
+                },
+                Table = new 
+                {
+                    isOWT = selection.IsOWT,
+                }
             };
 
             string pathJson = Utils.WriteJson(exportData, runDir, JsonSelectedData);
@@ -167,7 +184,8 @@ namespace dlseis_well_tie_petrel
                 inputs.WellPathPath,
                 inputs.TablePath,
                 pathJson,
-                pathConfig);
+                pathConfig
+                );
         }
 
         private void ExecuteScript(
@@ -339,6 +357,10 @@ namespace dlseis_well_tie_petrel
         public List<string> PathColumns { get; set; }
         public List<string> TableColumns { get; set; }
         public bool IsOWT { get; set; }
+        public string LasUnit { get; set; }
+        public string StartRange { get; set; }
+        public string EndRange { get; set; }
+        public string Datum { get; set; }
     }
 
     // Dataclass para todos os dados originais do well tie
