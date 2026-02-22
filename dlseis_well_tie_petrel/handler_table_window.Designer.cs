@@ -36,18 +36,20 @@
             this.comboBoxTVDSS = new System.Windows.Forms.ComboBox();
             this.labelTVDSS = new System.Windows.Forms.Label();
             this.checkBoxOWT = new System.Windows.Forms.CheckBox();
+            this.comboBoxTWTunit = new System.Windows.Forms.ComboBox();
+            this.labelTWTunit = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // flowLayoutPanelTable
             // 
-            this.flowLayoutPanelTable.Location = new System.Drawing.Point(13, 122);
+            this.flowLayoutPanelTable.Location = new System.Drawing.Point(13, 184);
             this.flowLayoutPanelTable.Name = "flowLayoutPanelTable";
             this.flowLayoutPanelTable.Size = new System.Drawing.Size(200, 91);
             this.flowLayoutPanelTable.TabIndex = 0;
             // 
             // buttonAcceptHanlderTable
             // 
-            this.buttonAcceptHanlderTable.Location = new System.Drawing.Point(13, 219);
+            this.buttonAcceptHanlderTable.Location = new System.Drawing.Point(13, 281);
             this.buttonAcceptHanlderTable.Name = "buttonAcceptHanlderTable";
             this.buttonAcceptHanlderTable.Size = new System.Drawing.Size(75, 23);
             this.buttonAcceptHanlderTable.TabIndex = 1;
@@ -58,7 +60,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 101);
+            this.label1.Location = new System.Drawing.Point(12, 163);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 2;
@@ -109,11 +111,30 @@
             this.checkBoxOWT.Text = "Is One-Way Time";
             this.checkBoxOWT.UseVisualStyleBackColor = true;
             // 
+            // comboBoxTWTunit
+            // 
+            this.comboBoxTWTunit.FormattingEnabled = true;
+            this.comboBoxTWTunit.Location = new System.Drawing.Point(14, 120);
+            this.comboBoxTWTunit.Name = "comboBoxTWTunit";
+            this.comboBoxTWTunit.Size = new System.Drawing.Size(81, 21);
+            this.comboBoxTWTunit.TabIndex = 8;
+            // 
+            // labelTWTunit
+            // 
+            this.labelTWTunit.AutoSize = true;
+            this.labelTWTunit.Location = new System.Drawing.Point(12, 104);
+            this.labelTWTunit.Name = "labelTWTunit";
+            this.labelTWTunit.Size = new System.Drawing.Size(80, 13);
+            this.labelTWTunit.TabIndex = 9;
+            this.labelTWTunit.Text = "Downward time";
+            // 
             // handler_table_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 322);
+            this.Controls.Add(this.labelTWTunit);
+            this.Controls.Add(this.comboBoxTWTunit);
             this.Controls.Add(this.checkBoxOWT);
             this.Controls.Add(this.labelTVDSS);
             this.Controls.Add(this.comboBoxTVDSS);
@@ -139,5 +160,7 @@
         private System.Windows.Forms.ComboBox comboBoxTVDSS;
         private System.Windows.Forms.Label labelTVDSS;
         private System.Windows.Forms.CheckBox checkBoxOWT;
+        private System.Windows.Forms.ComboBox comboBoxTWTunit;
+        private System.Windows.Forms.Label labelTWTunit;
     }
 }

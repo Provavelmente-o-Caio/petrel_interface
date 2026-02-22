@@ -41,30 +41,43 @@ namespace dlseis_well_tie_petrel
             // Assuring that these will be the first ones in the list
             SelectedColumns.Add(comboBoxMD.SelectedItem.ToString());
             SelectedColumns.Add(comboBoxInclination.SelectedItem.ToString());
-            datum = textBoxDatum.Text;
 
             foreach (var cb in flowLayoutPanelPath.Controls.OfType<CheckBox>())
             {
-                if (cb.Checked)
+                if (cb.Checked && cb.Text != comboBoxMD.SelectedItem.ToString() && cb.Text != comboBoxInclination.SelectedItem.ToString())
                 {
                     SelectedColumns.Add(cb.Text);
                 }
             }
 
-            if (SelectedColumns.Count() >= 2 && !string.IsNullOrEmpty(datum))
+            if (!string.IsNullOrWhiteSpace(textBoxDatum.Text))
+            {
+                if (double.TryParse(textBoxDatum.Text, out double datumValue))
+                {
+                    datum = datumValue.ToString();
+                } else
+                {
+                    MessageBox.Show(
+                        "Datum must be a valid number.",
+                        "Invalid Datum",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            if (SelectedColumns.Count() >= 2)
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
-            } else if (string.IsNullOrEmpty(datum))
-            {
-                MessageBox.Show(
-                        "You must select a value for Datum"
-                    );
             }
             else
             {
                 MessageBox.Show(
-                    "You must at least select a depth and inclination headers"
+                    "You must at least select a depth and inclination headers",
+                    "Missing Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
                 );
             }
 

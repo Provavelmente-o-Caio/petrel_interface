@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.labelTitle = new System.Windows.Forms.Label();
             this.labelExplain = new System.Windows.Forms.Label();
             this.labelVP = new System.Windows.Forms.Label();
@@ -47,6 +50,8 @@
             this.unitTextBox_range_end = new Slb.Ocean.Petrel.UI.Controls.UnitTextBox();
             this.labelUnit = new System.Windows.Forms.Label();
             this.comboBoxUnit = new System.Windows.Forms.ComboBox();
+            this.chartLogs = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLogs)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTitle
@@ -114,7 +119,7 @@
             // 
             // buttonHandlerLogs
             // 
-            this.buttonHandlerLogs.Location = new System.Drawing.Point(204, 246);
+            this.buttonHandlerLogs.Location = new System.Drawing.Point(187, 567);
             this.buttonHandlerLogs.Name = "buttonHandlerLogs";
             this.buttonHandlerLogs.Size = new System.Drawing.Size(75, 23);
             this.buttonHandlerLogs.TabIndex = 7;
@@ -212,11 +217,28 @@
             this.comboBoxUnit.Size = new System.Drawing.Size(121, 21);
             this.comboBoxUnit.TabIndex = 19;
             // 
+            // chartLogs
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartLogs.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartLogs.Legends.Add(legend1);
+            this.chartLogs.Location = new System.Drawing.Point(430, 12);
+            this.chartLogs.Name = "chartLogs";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartLogs.Series.Add(series1);
+            this.chartLogs.Size = new System.Drawing.Size(681, 596);
+            this.chartLogs.TabIndex = 20;
+            this.chartLogs.Text = "chart1";
+            // 
             // handler_logs_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 299);
+            this.ClientSize = new System.Drawing.Size(1123, 620);
+            this.Controls.Add(this.chartLogs);
             this.Controls.Add(this.comboBoxUnit);
             this.Controls.Add(this.labelUnit);
             this.Controls.Add(this.unitTextBox_range_end);
@@ -238,6 +260,7 @@
             this.Controls.Add(this.labelTitle);
             this.Name = "handler_logs_window";
             this.Text = "LAS Log Handler";
+            ((System.ComponentModel.ISupportInitialize)(this.chartLogs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,5 +287,6 @@
         private Slb.Ocean.Petrel.UI.Controls.UnitTextBox unitTextBox_range_end;
         private System.Windows.Forms.Label labelUnit;
         private System.Windows.Forms.ComboBox comboBoxUnit;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartLogs;
     }
 }

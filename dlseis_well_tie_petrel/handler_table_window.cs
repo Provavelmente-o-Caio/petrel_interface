@@ -13,6 +13,7 @@ namespace dlseis_well_tie_petrel
         {
             InitializeComponent();
 
+            List<string> units = new List<string> { "s", "ms" };
             foreach (var col in columns)
             {
                 var cb = new CheckBox { Text = col, AutoSize = true };
@@ -20,14 +21,23 @@ namespace dlseis_well_tie_petrel
                 comboBoxTWT.Items.Add(col);
                 comboBoxTVDSS.Items.Add(col);
             }
+            comboBoxTWTunit.DataSource = units;
         }
 
         private void buttonAcceptHanlderTable_Click(object sender, EventArgs e)
         {
             if (comboBoxTWT.SelectedItem == null || comboBoxTVDSS.SelectedItem == null)
             {
-                MessageBox.Show("You must select both a two-way time columns and a true vertical depth column.",
+                MessageBox.Show("You must select both a downward time column and a vertical depth column.",
                     "Missing Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            } else if (comboBoxTWTunit.SelectedItem == null)
+            {
+                MessageBox.Show(
+                    "You must select an unit for the downward time",
+                    "Missing selection",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return;
@@ -64,6 +74,11 @@ namespace dlseis_well_tie_petrel
         public bool getOWT()
         {
             return checkBoxOWT.Checked;
+        }
+
+        public string getDownwardTimeUnit()
+        {
+            return comboBoxTWTunit.Text;
         }
     }
 }

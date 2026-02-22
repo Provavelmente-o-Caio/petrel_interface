@@ -76,7 +76,10 @@ namespace dlseis_well_tie_petrel
             selection = null;
             data = null;
 
-            var columnsWellPath = Utils.GetColumnsFromFile(inputs.WellPathPath, 1);
+            bool isLas = Path.GetExtension(inputs.WellPathPath).ToLower() == ".las";
+            int pathLineToRead = isLas ? 0 : 1;
+
+            var columnsWellPath = Utils.GetColumnsFromFile(inputs.WellPathPath, pathLineToRead);
             var columnsTable = Utils.GetColumnsFromFile(inputs.TablePath, 1);
 
             if (columnsWellPath == null || columnsWellPath.Length == 0)
@@ -114,6 +117,7 @@ namespace dlseis_well_tie_petrel
                         PathColumns = pathWindow.getSelectedColumns(),
                         TableColumns = tableWindow.getSelectedColumns(),
                         IsOWT = tableWindow.getOWT(),
+                        downwardTimeUnit = tableWindow.getDownwardTimeUnit(),
                         LasUnit = logsWindow.getLasUnit(),
                         StartRange = logsWindow.getStartRange(),
                         EndRange = logsWindow.getEndRange(),
@@ -171,6 +175,7 @@ namespace dlseis_well_tie_petrel
                 Table = new 
                 {
                     isOWT = selection.IsOWT,
+                    Unit = selection.downwardTimeUnit,
                 }
             };
 
@@ -357,6 +362,7 @@ namespace dlseis_well_tie_petrel
         public List<string> PathColumns { get; set; }
         public List<string> TableColumns { get; set; }
         public bool IsOWT { get; set; }
+        public string downwardTimeUnit { get; set; }
         public string LasUnit { get; set; }
         public string StartRange { get; set; }
         public string EndRange { get; set; }
