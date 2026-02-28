@@ -17,6 +17,7 @@ namespace dlseis_well_tie_petrel
 
         private const string JsonSelectedData = "selected_data.json";
         private const string JsonConfig = "config.json";
+        private const string JsonOutput = "well_tie_results.json";
 
         private const string DialogFileErrorTitle = "File Error";
 
@@ -149,6 +150,7 @@ namespace dlseis_well_tie_petrel
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             string scriptPath = Path.Combine(runDir, ScriptName);
+            string outputPath = Path.Combine(runDir, JsonOutput);
 
             var exportData = new
             {
@@ -189,7 +191,8 @@ namespace dlseis_well_tie_petrel
                 inputs.WellPathPath,
                 inputs.TablePath,
                 pathJson,
-                pathConfig
+                pathConfig,
+                outputPath
                 );
         }
 
@@ -200,7 +203,9 @@ namespace dlseis_well_tie_petrel
             string pathWellPath,
             string pathTable,
             string pathJson,
-            string pathConfig)
+            string pathConfig,
+            string pathOutput 
+            )
         {
             if (!File.Exists(scriptPath))
             {
@@ -219,7 +224,7 @@ namespace dlseis_well_tie_petrel
                     FileName = scriptPath,
                     Arguments =
                         $"\"{pathLogs}\" \"{pathSeismic}\" \"{pathWellPath}\" " +
-                        $"\"{pathTable}\" \"{pathJson}\" \"{pathConfig}\"",
+                        $"\"{pathTable}\" \"{pathJson}\" \"{pathConfig}\" \"{pathOutput}\"",
                     UseShellExecute = true,
                     CreateNoWindow = false
                 };
@@ -238,6 +243,15 @@ namespace dlseis_well_tie_petrel
                             "Execution Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
+                    }
+
+                    if (!File.Exists(pathOutput))
+                    {
+                        MessageBox.Show(
+                        "Failed to generate an output: \n" + pathOutput,
+                        "Ëxecution Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
                     }
                 }
             }
