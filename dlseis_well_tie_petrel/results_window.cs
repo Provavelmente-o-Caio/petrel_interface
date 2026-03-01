@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Newtonsoft.Json.Linq;
@@ -353,6 +348,10 @@ namespace dlseis_well_tie_petrel
             var r0 = tw["r0"].ToObject<double[]>();
             var syn = tw["synthetic_seismic"].ToObject<double[]>();
             var real_s = tw["real_seismic"].ToObject<double[]>();
+            var dxcorrNode = results["dxcorr"];
+            var dxTimeTwt = dxcorrNode["basis"].ToObject<double[]>();
+            var dxLags = dxcorrNode["lags_basis"].ToObject<double[]>();
+            var dxRaw = dxcorrNode["values"].ToObject<double[][]>();
 
             int twtLen = twt.Length;
             int aiLen = Math.Min(twtLen, ai.Length);
@@ -431,11 +430,6 @@ namespace dlseis_well_tie_petrel
             var chartRes = CreateWiggleChart("Residual", twtRes, res, 1);
 
             // 6. Dynamic XCorr heatmap
-            var dxcorrNode = results["dxcorr"];
-            var dxTimeTwt = dxcorrNode["basis"].ToObject<double[]>();
-            var dxLags = dxcorrNode["lags_basis"].ToObject<double[]>();
-            var dxRaw = dxcorrNode["values"].ToObject<double[][]>();
-
             int nT = Math.Min(dxTimeTwt.Length, dxRaw.Length);
             int nL = dxLags.Length;
             var dxValues = new double[nT, nL];
@@ -605,13 +599,10 @@ namespace dlseis_well_tie_petrel
             area.AxisX.Maximum = lags[lags.Length - 1];
             area.AxisY.Minimum = timeTwt[0];
             area.AxisY.Maximum = timeTwt[timeTwt.Length - 1];
-            area.BackColor = Color.Black;
             area.AxisX.MajorGrid.LineColor = Color.FromArgb(40, 255, 255, 255);
             area.AxisY.MajorGrid.LineColor = Color.FromArgb(40, 255, 255, 255);
+            area.BackColor = Color.Beige;
             chart.BorderlineWidth = 0;
-            area.InnerPlotPosition.Auto = false;
-            area.InnerPlotPosition.X = 0;
-            area.InnerPlotPosition.Width = 100;
             chart.ChartAreas.Add(area);
 
             // Cada linha de tempo é uma série de pontos coloridos por valor
@@ -654,7 +645,7 @@ namespace dlseis_well_tie_petrel
             var sZero = new Series("zero")
             {
                 ChartType = SeriesChartType.Line,
-                Color = Color.White,
+                Color = Color.Black,
                 BorderWidth = 1,
                 BorderDashStyle = ChartDashStyle.Dash,
                 IsVisibleInLegend = false
@@ -664,8 +655,7 @@ namespace dlseis_well_tie_petrel
             chart.Series.Add(sZero);
 
             chart.Titles.Add(new Title("Dynamic XCorr", Docking.Top,
-                new Font("Consolas", 8, FontStyle.Bold), Color.White));
-            chart.BackColor = Color.Black;
+                new Font("Consolas", 8, FontStyle.Bold), Color.Black));
 
             return chart;
         }
