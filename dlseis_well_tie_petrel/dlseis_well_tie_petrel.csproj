@@ -139,6 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatic_Seismic_to_Well_Tie.cs" />
+    <Compile Include="results_window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="results_window.Designer.cs">
+      <DependentUpon>results_window.cs</DependentUpon>
+    </Compile>
     <Compile Include="handler_logs_window.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +213,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="results_window.resx">
+      <DependentUpon>results_window.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="well_tie_window.resx">
       <DependentUpon>well_tie_window.cs</DependentUpon>

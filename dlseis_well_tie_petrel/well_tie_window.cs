@@ -7,6 +7,7 @@ using Slb.Ocean.Petrel.DomainObject;
 using Slb.Ocean.Petrel.DomainObject.Well;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Windows.Forms.DataVisualization.Charting;
 
 
 namespace dlseis_well_tie_petrel
@@ -219,6 +220,9 @@ namespace dlseis_well_tie_petrel
 
             try
             {
+                this.Cursor = Cursors.WaitCursor;
+                this.Enabled = false;
+
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = scriptPath,
@@ -235,6 +239,9 @@ namespace dlseis_well_tie_petrel
                         throw new InvalidOperationException("Failed to start the script process.");
 
                     process.WaitForExit();
+
+                    this.Cursor = Cursors.Default;
+                    this.Enabled = true;
 
                     if (process.ExitCode != 0)
                     {
@@ -253,10 +260,16 @@ namespace dlseis_well_tie_petrel
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
                     }
+
+                    var resultsWindow = new results_window(pathOutput);
+                    resultsWindow.Show(this);
                 }
             }
             catch (Exception ex)
             {
+                this.Cursor = Cursors.Default;
+                this.Enabled = true;
+
                 MessageBox.Show(
                     ex.Message,
                     "Execution Error",
