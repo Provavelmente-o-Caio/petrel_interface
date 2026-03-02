@@ -139,6 +139,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatic_Seismic_to_Well_Tie.cs" />
+    <Compile Include="config_editor_window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="config_editor_window.Designer.cs">
+      <DependentUpon>config_editor_window.cs</DependentUpon>
+    </Compile>
     <Compile Include="results_window.cs">
       <SubType>Form</SubType>
     </Compile>

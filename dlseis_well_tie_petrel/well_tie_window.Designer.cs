@@ -48,11 +48,12 @@
             this.openFileDialog_table = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxPetrelLogs = new System.Windows.Forms.ComboBox();
+            this.button_edit_config = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_tie
             // 
-            this.button_tie.Location = new System.Drawing.Point(180, 187);
+            this.button_tie.Location = new System.Drawing.Point(98, 215);
             this.button_tie.Name = "button_tie";
             this.button_tie.Size = new System.Drawing.Size(82, 23);
             this.button_tie.TabIndex = 2;
@@ -210,11 +211,22 @@
             this.comboBoxPetrelLogs.Size = new System.Drawing.Size(216, 21);
             this.comboBoxPetrelLogs.TabIndex = 18;
             // 
+            // button_edit_config
+            // 
+            this.button_edit_config.Location = new System.Drawing.Point(277, 215);
+            this.button_edit_config.Name = "button_edit_config";
+            this.button_edit_config.Size = new System.Drawing.Size(82, 23);
+            this.button_edit_config.TabIndex = 19;
+            this.button_edit_config.Text = "Config";
+            this.button_edit_config.UseVisualStyleBackColor = true;
+            this.button_edit_config.Click += new System.EventHandler(this.button_edit_config_Click);
+            // 
             // well_tie_window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 294);
+            this.ClientSize = new System.Drawing.Size(458, 250);
+            this.Controls.Add(this.button_edit_config);
             this.Controls.Add(this.comboBoxPetrelLogs);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_select_logs);
@@ -261,5 +273,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog_table;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxPetrelLogs;
+        private System.Windows.Forms.Button button_edit_config;
     }
 }

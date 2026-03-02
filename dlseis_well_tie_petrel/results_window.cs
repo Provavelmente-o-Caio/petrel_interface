@@ -62,6 +62,22 @@ namespace dlseis_well_tie_petrel
                 Location = new Point(340, 12)
             };
 
+            var btnExportTD = new Button
+            {
+                Text = "Export T-D Table",
+                Width = 130,
+                Height = 28,
+                Location = new Point(600, 10),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(26, 77, 122),
+                ForeColor = Color.White,
+                Font = new Font("Consolas", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
+            };
+            btnExportTD.FlatAppearance.BorderSize = 0;
+            btnExportTD.Click += BtnExportTD_Click;
+
+            KpiPanel.Controls.Add(btnExportTD);
             KpiPanel.Controls.Add(labelGOM);
             KpiPanel.Controls.Add(labelLag);
 
@@ -679,6 +695,64 @@ namespace dlseis_well_tie_petrel
                 int g = (int)(255 + s * (24 - 255));
                 int b = (int)(255 + s * (43 - 255));
                 return Color.FromArgb(r, g, b);
+            }
+        }
+
+        private void BtnExportTD_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var mod = results["td_table"]["modified"];
+                var twt = mod["twt"].ToObject<double[]>();
+                var tvdss = mod["tvdss"].ToObject<double[]>();
+
+                int len = Math.Min(twt.Length, tvdss.Length);
+
+                using (var dialog = new SaveFileDialog
+                {
+                    Title = "Export Modified T-D Table",
+                    Filter = "LAS File (*.las)|*.las",
+                    DefaultExt = "las",
+                    FileName = "td_table_modified.las"
+                })
+                {
+                    if (dialog.ShowDialog() != DialogResult.OK) return;
+
+                    using (var writer = new StreamWriter(dialog.FileName))
+                    {
+                        // LAS header
+                        writer.WriteLine("~VERSION INFORMATION");
+                        writer.WriteLine(" VERS.                 2.0   : CWLS LOG ASCII STANDARD - VERSION 2.0");
+                        writer.WriteLine(" WRAP.                  NO   : ONE LINE PER DEPTH STEP");
+                        writer.WriteLine();
+                        writer.WriteLine("~WELL INFORMATION");
+                        writer.WriteLine($" DATE.                       : {DateTime.Now:yyyy-MM-dd}");
+                        writer.WriteLine(" WELL.                       : Modified T-D Table");
+                        writer.WriteLine();
+                        writer.WriteLine("~CURVE INFORMATION");
+                        writer.WriteLine(" TVDSS.  M               : Depth below mean sea level");
+                        writer.WriteLine(" TWT  .  S               : Two-way travel time");
+                        writer.WriteLine();
+                        writer.WriteLine("~A  TVDSS          TWT");
+
+                        for (int i = 0; i < len; i++)
+                            writer.WriteLine($"  {tvdss[i],12:F4}  {twt[i],12:F6}");
+                    }
+
+                    MessageBox.Show(
+                        $"T-D Table exported successfully.\n{dialog.FileName}",
+                        "Export Complete",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Export failed:\n" + ex.Message,
+                    "Export Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

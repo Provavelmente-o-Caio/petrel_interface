@@ -179,6 +179,33 @@ namespace dlseis_well_tie_petrel
                 {
                     isOWT = selection.IsOWT,
                     Unit = selection.downwardTimeUnit,
+                },
+                SearchSpace = new
+                {
+                    median_length_min = 11,
+                    median_length_max = 63,
+                    median_th_min = 0.1,
+                    median_th_max = 5.5,
+                    std_min = 0.5,
+                    std_max = 5.5,
+                    table_t_shift_min = -0.012,
+                    table_t_shift_max = 0.012
+                },
+                SearchParams = new
+                {
+                    num_iters = 80,
+                    similarity_std = 0.02
+                },
+                WaveletScaling = new
+                {
+                    wavelet_min_scale = 50000,
+                    wavelet_max_scale = 500000,
+                    num_iters = 60
+                },
+                StretchAndSqueeze = new
+                {
+                    window_length = 0.060,
+                    max_lag = 0.010
                 }
             };
 
@@ -369,6 +396,26 @@ namespace dlseis_well_tie_petrel
         private void button_select_table_Click(object sender, EventArgs e)
         {
             SelectFile(openFileDialog_table, textBox_table);
+        }
+
+        private void button_edit_config_Click(object sender, EventArgs e)
+        {
+            string runDir = Path.GetDirectoryName(
+                System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string configPath = Path.Combine(runDir, JsonConfig);
+
+            if (!File.Exists(configPath))
+            {
+                MessageBox.Show(
+                    "Run the well tie at least once to generate the config file.",
+                    "Config Not Found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            var editor = new config_editor_window(configPath);
+            editor.ShowDialog(this);
         }
     }
 
