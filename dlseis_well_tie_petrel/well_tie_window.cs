@@ -206,6 +206,10 @@ namespace dlseis_well_tie_petrel
                 {
                     window_length = 0.060,
                     max_lag = 0.010
+                },
+                Model = new
+                {
+                    chosen_network = "variational"
                 }
             };
 

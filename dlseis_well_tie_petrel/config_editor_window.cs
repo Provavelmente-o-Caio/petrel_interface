@@ -28,6 +28,9 @@ namespace dlseis_well_tie_petrel
         private NumericUpDown numWindowLength;
         private NumericUpDown numMaxLag;
 
+        // Model
+        private ComboBox comboChosenNetwork;
+
         public config_editor_window(string configPath)
         {
             InitializeComponent();
@@ -51,6 +54,7 @@ namespace dlseis_well_tie_petrel
             tabs.TabPages.Add(BuildSearchParamsPage());
             tabs.TabPages.Add(BuildWaveletPage());
             tabs.TabPages.Add(BuildStretchPage());
+            tabs.TabPages.Add(BuildModelPage());
 
             // Botões no fundo
             var btnPanel = new Panel
@@ -220,6 +224,39 @@ namespace dlseis_well_tie_petrel
             return page;
         }
 
+        private TabPage BuildModelPage()
+        {
+            var page = new TabPage("Model");
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                Padding = new Padding(12)
+            };
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40));
+
+            AddHeader2(layout, "Parameter", "Value");
+
+            comboChosenNetwork = new ComboBox
+            {
+                Dock = DockStyle.Fill,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            comboChosenNetwork.Items.Add("variational");
+            comboChosenNetwork.Items.Add("convolutional");
+            comboChosenNetwork.SelectedIndex = 0;
+
+            var tip = new ToolTip();
+            var lbl = MakeLabel("Network Type");
+            tip.SetToolTip(lbl, "variational = uncertainty-aware (recommended); convolutional = faster");
+            layout.Controls.Add(lbl);
+            layout.Controls.Add(comboChosenNetwork);
+
+            page.Controls.Add(layout);
+            return page;
+        }
+
         // ── Helpers de criação de controles ──────────────────────────────────
 
         private NumericUpDown MakeInt(int val, int step, int max, int min = 0)
@@ -307,6 +344,7 @@ namespace dlseis_well_tie_petrel
             var sp = _config["SearchParams"];
             var ws = _config["WaveletScaling"];
             var sas = _config["StretchAndSqueeze"];
+            var model = _config["Model"];
 
             // SearchSpace — com defaults caso não exista no JSON
             numMedianLenMin.Value = ss?["median_length_min"] != null ? (int)ss["median_length_min"] : 11;
@@ -330,6 +368,14 @@ namespace dlseis_well_tie_petrel
             // StretchAndSqueeze
             numWindowLength.Value = sas?["window_length"] != null ? (decimal)(double)sas["window_length"] : 0.060m;
             numMaxLag.Value = sas?["max_lag"] != null ? (decimal)(double)sas["max_lag"] : 0.010m;
+
+            // Model
+            string chosenNet = model?["chosen_network"] != null
+                ? (string)model["chosen_network"]
+                : "variational";
+            comboChosenNetwork.SelectedItem = comboChosenNetwork.Items.Contains(chosenNet)
+                ? chosenNet
+                : "variational";
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -357,6 +403,8 @@ namespace dlseis_well_tie_petrel
                 _config["WaveletScaling"] = new JObject();
             if (_config["StretchAndSqueeze"] == null)
                 _config["StretchAndSqueeze"] = new JObject();
+            if (_config["Model"] == null)
+                _config["Model"] = new JObject();
 
             _config["SearchSpace"]["median_length_min"] = (int)numMedianLenMin.Value;
             _config["SearchSpace"]["median_length_max"] = (int)numMedianLenMax.Value;
@@ -376,6 +424,8 @@ namespace dlseis_well_tie_petrel
 
             _config["StretchAndSqueeze"]["window_length"] = (double)numWindowLength.Value;
             _config["StretchAndSqueeze"]["max_lag"] = (double)numMaxLag.Value;
+
+            _config["Model"]["chosen_network"] = comboChosenNetwork.SelectedItem.ToString();
 
             File.WriteAllText(_configPath, _config.ToString());
 
@@ -402,6 +452,7 @@ namespace dlseis_well_tie_petrel
             numWavIters.Value = 60;
             numWindowLength.Value = 0.060m;
             numMaxLag.Value = 0.010m;
+            comboChosenNetwork.SelectedItem = "variational";
         }
     }
 }
